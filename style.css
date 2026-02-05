@@ -1,98 +1,13 @@
+/* 1. ब्रांड कलर्स और सेटिंग्स */
 :root {
-    --gold: #fcc419;
-    --dark: #050a14;
-    --card: #111827;
-    --text: #9ca3af;
-    --lock-clr: #ef4444;
+    --gold: #fcc419;        /* प्रीमियम गोल्डन */
+    --gold-glow: rgba(252, 196, 25, 0.5);
+    --dark-bg: #020617;     /* गहरा अंतरिक्ष नीला */
+    --card-bg: #111827;     /* डार्क कार्ड्स के लिए */
+    --text-muted: #94a3b8;
+    --lock-clr: #ef4444;    /* प्रीमियम लॉक के लिए लाल */
 }
 
-body {
-    background: var(--dark);
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-}
-
-.container { max-width: 480px; margin: auto; padding: 20px; }
-
-.header { text-align: center; padding: 20px 0; }
-.badge { background: var(--gold); color: black; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; }
-h1 { color: var(--gold); font-size: 2.2rem; margin: 10px 0; }
-
-.input-box { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid #1f2937; }
-input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px solid #374151; border-radius: 12px; color: white; margin-top: 8px; margin-bottom: 20px; box-sizing: border-box; }
-
-.btn-main { width: 100%; padding: 16px; background: linear-gradient(135deg, #fcc419, #f59f00); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; font-size: 1.1rem; }
-
-.link-card { background: var(--card); padding: 18px; border-radius: 15px; margin-bottom: 12px; border-left: 5px solid var(--gold); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-.link-card.locked { border-left-color: var(--lock-clr); }
-
-.free { color: #25d366; font-size: 0.7rem; font-weight: bold; border: 1px solid #25d366; padding: 2px 6px; border-radius: 4px; }
-.lock { color: var(--lock-clr); font-size: 0.8rem; font-weight: bold; }
-
-/* Modal */
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 1000; }
-.modal-content { padding: 40px 20px; color: white; }
-.close-btn { font-size: 2.5rem; color: var(--gold); position: absolute; top: 10px; right: 20px; cursor: pointer; }
-
-.gold-text { color: var(--gold); }
-.hidden { display: none; }
-.pay-box { text-align: center; border: 1px dashed var(--gold); padding: 30px; border-radius: 15px; margin-top: 20px; }
-
-.chaldean-chart-container {
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 15px;
-    padding: 20px;
-    border: 1px solid rgba(251, 191, 36, 0.1);
-}
-
-.chaldean-chart-container h3 {
-    color: var(--gold);
-    font-size: 0.9rem;
-    text-align: center;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.chaldean-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 कॉलम */
-    gap: 8px;
-}
-
-.chart-item {
-    background: #0b1120;
-    padding: 8px 4px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 0.7rem;
-    color: #9ca3af;
-    border: 1px solid #1f2937;
-}
-
-.chart-item span {
-    color: var(--gold);
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.chart-note {
-    text-align: center;
-    font-size: 0.65rem;
-    color: #4b5563;
-    margin-top: 12px;
-}
-
-/* मोबाइल पर ग्रिड को 2 कॉलम करने के लिए (अगर स्क्रीन छोटी हो) */
-@media (max-width: 350px) {
-    .chaldean-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* 1. बेसिक सेटिंग्स */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -101,42 +16,63 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
 }
 
 body {
-    background-color: #0f172a;
+    background-color: var(--dark-bg);
     color: white;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
-/* 2. स्प्लैश स्क्रीन (Golden Glow के साथ) */
+/* 2. Golden Glow Splash Screen (No Shop Name) */
 #splash-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: var(--dark-bg);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 99999;
     transition: opacity 0.8s ease;
 }
 
-.app-logo-container {
-    width: 180px;
-    height: 180px;
-    margin-bottom: 20px;
-    animation: zoomIn 1.5s ease-out;
+.glow-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.main-logo-img {
-    width: 100%;
-    height: 100%;
+/* धड़कता हुआ सुनहरा प्रकाश (Aura) */
+.golden-aura {
+    position: absolute;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 75%);
     border-radius: 50%;
-    box-shadow: 0 0 40px rgba(251, 191, 36, 0.4);
-    border: 3px solid #fbbf24;
+    filter: blur(40px);
+    animation: pulseAura 2.5s infinite alternate ease-in-out;
+}
+
+.logo-with-glow {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 50px var(--gold-glow);
+    z-index: 5;
+    animation: logoEmerge 1.8s ease-out forwards;
+}
+
+.glow-text-title {
+    color: var(--gold);
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: 10px;
+    margin-top: 30px;
+    text-shadow: 0 0 20px var(--gold);
+    z-index: 5;
+    opacity: 0;
+    animation: fadeInGold 1s ease-out 1s forwards;
 }
 
 /* 3. मुख्य ऐप लेआउट */
@@ -151,129 +87,104 @@ header {
     padding: 30px 0;
 }
 
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.header-mini-logo {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 2px solid #fbbf24;
+.badge {
+    background: var(--gold);
+    color: black;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-bottom: 10px;
 }
 
 .gold-text {
-    color: #fbbf24;
-    font-size: 2rem;
-    text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+    color: var(--gold);
 }
 
-/* 4. इनपुट कार्ड */
+/* 4. इनपुट कार्ड्स */
 .input-card {
-    background: #1e293b;
+    background: var(--card-bg);
     padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     border: 1px solid rgba(251, 191, 36, 0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 input {
     width: 100%;
     padding: 15px;
-    background: #0f172a;
-    border: 1px solid #334155;
+    background: var(--dark-bg);
+    border: 1px solid #374151;
     border-radius: 12px;
     color: white;
+    margin-top: 8px;
     margin-bottom: 20px;
     font-size: 1rem;
 }
 
-button {
+.btn-main {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(to right, #fbbf24, #b45309);
-    color: #0f172a;
+    background: linear-gradient(135deg, var(--gold), #b45309);
+    color: black;
     border: none;
     border-radius: 12px;
+    font-weight: bold;
     font-size: 1.1rem;
-    font-weight: bold;
     cursor: pointer;
+    box-shadow: 0 4px 15px var(--gold-glow);
+    transition: transform 0.2s;
 }
 
-/* लोशू ग्रिड का मुख्य ढांचा */
-.loshu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 कॉलम */
-    gap: 10px; /* डिब्बों के बीच की दूरी */
-    background: #fbbf24; /* बॉर्डर का सुनहरा रंग */
-    padding: 10px;
+.btn-main:active {
+    transform: scale(0.98);
+}
+
+/* 5. लिंक कार्ड्स और लॉक सिस्टम */
+.link-card {
+    background: var(--card-bg);
+    padding: 18px;
     border-radius: 15px;
-    max-width: 300px;
-    margin: 20px auto;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
-}
-
-/* हर एक बॉक्स (Cell) की स्टाइल */
-.cell {
-    background: #0f172a; /* अंदर का गहरा नीला रंग */
-    aspect-ratio: 1/1; /* बॉक्स को चकोर रखने के लिए */
+    margin-bottom: 12px;
+    border-left: 5px solid var(--gold);
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #fbbf24;
-    border-radius: 8px;
-    min-height: 80px; /* मोबाइल पर सही दिखने के लिए */
-}
-
-
-/* 6. फ्लोटिंग व्हाट्सएप विजेट */
-.floating-widget {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 60px;
-    height: 60px;
-    background: #fbbf24;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    z-index: 1000;
     cursor: pointer;
-    border: 2px solid #0f172a;
 }
 
-.widget-icon {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+.link-card.locked {
+    border-left-color: var(--lock-clr);
+    opacity: 0.8;
 }
 
-.widget-ping {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #fbbf24;
-    border-radius: 50%;
-    z-index: -1;
-    animation: ping 2s infinite;
+.free { color: #25d366; font-size: 0.7rem; font-weight: bold; border: 1px solid #25d366; padding: 2px 6px; border-radius: 4px; }
+.lock { color: var(--lock-clr); font-size: 0.8rem; font-weight: bold; }
+
+/* 6. एनिमेशन की परिभाषाएं */
+@keyframes pulseAura {
+    from { transform: scale(1); opacity: 0.3; }
+    to { transform: scale(1.5); opacity: 0.7; }
 }
 
-@keyframes ping {
-    0% { transform: scale(1); opacity: 0.8; }
-    100% { transform: scale(1.5); opacity: 0; }
+@keyframes logoEmerge {
+    0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-@keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+@keyframes fadeInGold {
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hidden { display: none; }
-  
+
+/* 7. मॉडल (Popup) */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    z-index: 100000;
+}

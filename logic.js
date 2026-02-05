@@ -1,3 +1,14 @@
+// स्प्लैश स्क्रीन को 3 सेकंड बाद हटाने के लिए
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.style.display = 'none';
+        }, 800);
+    }, 3000); // 3 सेकंड का समय
+});
+
 // मिसिंग नंबर ढूंढने का फंक्शन
 function getMissingNumbers(dob) {
     const dobDigits = dob.replace(/-/g, '').split('');

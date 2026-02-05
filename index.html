@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankdristi - Premium Numerology</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="home-page" class="container">
+        <div class="header">
+            <span class="badge">2026 स्पेशल रिपोर्ट</span>
+            <h1>अंकदृष्टि</h1>
+            <p>अंकों का रहस्य, आपकी सफलता</p>
+        </div>
+
+        <div class="input-box">
+            <div class="field">
+                <label>पूरा नाम <span id="nameLive" class="gold-text"></span></label>
+                <input type="text" id="nameInp" placeholder="GAUTAM KHATRI" oninput="liveCalc()">
+            </div>
+            <div class="field">
+                <label>जन्म तिथि</label>
+                <input type="date" id="dobInp">
+            </div>
+            <div class="field">
+                <label>लिंग (Gender)</label>
+                <select id="genderInp">
+                    <option value="male">पुरुष</option>
+                    <option value="female">महिला</option>
+                </select>
+            </div>
+            <button class="btn-main" onclick="generateMenu()">रिपोर्ट प्राप्त करें</button>
+        </div>
+    </div>
+
+    <div id="result-page" class="container hidden">
+        <div class="back-link" onclick="location.reload()">← वापस जाएँ</div>
+        <h2 class="gold-text">आपकी महा-रिपोर्ट</h2>
+        
+        <div class="menu-list">
+            <div onclick="openDetail('mulank', false)" class="link-card"><span>1. मूलांक (जन्मांक)</span> <span class="free">FREE</span></div>
+            <div onclick="openDetail('bhagyank', false)" class="link-card"><span>2. भाग्यांक (जीवन पथ)</span> <span class="free">FREE</span></div>
+            <div onclick="openDetail('namank', false)" class="link-card"><span>3. नामांक (Name Analysis)</span> <span class="free">FREE</span></div>
+            <div onclick="openDetail('number', true)" class="link-card locked"><span>4. संख्या विश्लेषण</span> <span class="lock">🔒 PAID</span></div>
+            <div onclick="openDetail('personality', true)" class="link-card locked"><span>5. व्यक्तित्व एवं आत्मा</span> <span class="lock">🔒 PAID</span></div>
+            <div onclick="openDetail('year', true)" class="link-card locked"><span>6. व्यक्तिगत वर्ष 2026</span> <span class="lock">🔒 PAID</span></div>
+            <div onclick="openDetail('loshu', true)" class="link-card locked"><span>7. लोशू ग्रिड गहराई से</span> <span class="lock">🔒 PAID</span></div>
+            <div onclick="openDetail('missing', false)" class="link-card"><span>8. लुप्त संख्या (Missing)</span> <span class="free">FREE</span></div>
+            <div onclick="openDetail('remedy', true)" class="link-card locked"><span>9. अचूक महा-उपाय</span> <span class="lock">🔒 PAID</span></div>
+            <div onclick="openDetail('pdf', true)" class="link-card locked"><span>10. फुल PDF रिपोर्ट</span> <span class="lock">🔒 PAID</span></div>
+        </div>
+    </div>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>

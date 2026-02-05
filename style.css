@@ -91,3 +91,136 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* 1. बेसिक सेटिंग्स और वेरिएबल्स */
+:root {
+    --gold: #fcc419;        /* आपका सिग्नेचर गोल्ड */
+    --gold-glow: rgba(252, 196, 25, 0.5);
+    --dark-bg: #020617;     /* प्रीमियम डार्क अंतरिक्ष नीला */
+    --card-bg: #111827;
+    --text-muted: #94a3b8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+}
+
+/* 2. Golden Glow Splash Screen */
+#splash-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: var(--dark-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.glow-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* धड़कता हुआ सुनहरा प्रकाश (Aura Effect) */
+.golden-aura {
+    position: absolute;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 75%);
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: pulseAura 2.5s infinite alternate ease-in-out;
+}
+
+.logo-with-glow {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 50px var(--gold-glow);
+    z-index: 5;
+    animation: logoEmerge 1.8s ease-out forwards;
+}
+
+.glow-text-title {
+    color: var(--gold);
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: 10px;
+    margin-top: 30px;
+    text-shadow: 0 0 20px var(--gold);
+    z-index: 5;
+    opacity: 0;
+    animation: fadeInGold 1s ease-out 1s forwards;
+}
+
+/* 3. मुख्य ऐप लेआउट (Maa Bhagwati Branding) */
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.badge {
+    background: var(--gold);
+    color: black;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.btn-main {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), #b45309);
+    color: black;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--gold-glow);
+}
+
+.footer-branding {
+    position: absolute;
+    bottom: 40px;
+    color: rgba(252, 196, 25, 0.4);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+/* 4. एनिमेशन की परिभाषाएं */
+@keyframes pulseAura {
+    from { transform: scale(1); opacity: 0.3; }
+    to { transform: scale(1.5); opacity: 0.7; }
+}
+
+@keyframes logoEmerge {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInGold {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: 1s ease-in-out;
+}

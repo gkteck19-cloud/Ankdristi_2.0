@@ -116,111 +116,72 @@ body {
 }
 
 /* 2. Golden Glow Splash Screen */
-#splash-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100vh;
-    background: var(--dark-bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-}
+; /* स्प्लैश के दौरान स्क्रॉल न हो */
+            background-color: #050a14;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-.glow-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #1e293b, #050a14);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
 
-/* धड़कता हुआ सुनहरा प्रकाश (Aura Effect) */
-.golden-aura {
-    position: absolute;
-    width: 250px; height: 250px;
-    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 75%);
-    border-radius: 50%;
-    filter: blur(40px);
-    animation: pulseAura 2.5s infinite alternate ease-in-out;
-}
+        .splash-content {
+            text-align: center;
+        }
 
-.logo-with-glow {
-    width: 160px; height: 160px;
-    border-radius: 50%;
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 50px var(--gold-glow);
-    z-index: 5;
-    animation: logoEmerge 1.8s ease-out forwards;
-}
+        .splash-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #fcc419;
+            filter: drop-shadow(0 0 20px rgba(252, 196, 25, 0.4));
+            animation: logoZoom 1.5s ease-out forwards;
+        }
 
-.glow-text-title {
-    color: var(--gold);
-    font-size: 2.6rem;
-    font-weight: 900;
-    letter-spacing: 10px;
-    margin-top: 30px;
-    text-shadow: 0 0 20px var(--gold);
-    z-index: 5;
-    opacity: 0;
-    animation: fadeInGold 1s ease-out 1s forwards;
-}
+        .splash-text {
+            color: #fcc419;
+            font-size: 2.2rem;
+            letter-spacing: 6px;
+            margin: 20px 0 5px 0;
+            font-weight: 900;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
 
-/* 3. मुख्य ऐप लेआउट (Maa Bhagwati Branding) */
-.app-container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px;
-}
+        .tagline {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
 
-.badge {
-    background: var(--gold);
-    color: black;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.8rem;
-}
+        .brand-footer {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
 
-.btn-main {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--gold), #b45309);
-    color: black;
-    border: none;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px var(--gold-glow);
-}
-
-.footer-branding {
-    position: absolute;
-    bottom: 40px;
-    color: rgba(252, 196, 25, 0.4);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-}
-
-/* 4. एनिमेशन की परिभाषाएं */
-@keyframes pulseAura {
-    from { transform: scale(1); opacity: 0.3; }
-    to { transform: scale(1.5); opacity: 0.7; }
-}
-
-@keyframes logoEmerge {
-    0% { transform: scale(0.3); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeInGold {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.splash-fade-out {
-    opacity: 0;
-    visibility: hidden;
-    transition: 1s ease-in-out;
-}
+        .loader {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(252, 196, 25, 0.1);
+            border-top: 3px solid #fcc419;
+            border-radius: 50%;
+            margin: 25px auto;
+            animation: spin 1s linear infinite;
+        }

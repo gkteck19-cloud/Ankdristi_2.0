@@ -38,3 +38,56 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
 .gold-text { color: var(--gold); }
 .hidden { display: none; }
 .pay-box { text-align: center; border: 1px dashed var(--gold); padding: 30px; border-radius: 15px; margin-top: 20px; }
+
+.chaldean-chart-container {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+.chaldean-chart-container h3 {
+    color: var(--gold);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chaldean-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 कॉलम */
+    gap: 8px;
+}
+
+.chart-item {
+    background: #0b1120;
+    padding: 8px 4px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #9ca3af;
+    border: 1px solid #1f2937;
+}
+
+.chart-item span {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.chart-note {
+    text-align: center;
+    font-size: 0.65rem;
+    color: #4b5563;
+    margin-top: 12px;
+}
+
+/* मोबाइल पर ग्रिड को 2 कॉलम करने के लिए (अगर स्क्रीन छोटी हो) */
+@media (max-width: 350px) {
+    .chaldean-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

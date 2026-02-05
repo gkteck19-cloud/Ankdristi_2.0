@@ -1,11 +1,11 @@
-/* 1. ब्रांड कलर्स और सेटिंग्स */
+/* 1. बेसिक सेटिंग्स और वेरिएबल्स */
 :root {
-    --gold: #fcc419;        /* प्रीमियम गोल्डन */
-    --gold-glow: rgba(252, 196, 25, 0.5);
-    --dark-bg: #020617;     /* गहरा अंतरिक्ष नीला */
-    --card-bg: #111827;     /* डार्क कार्ड्स के लिए */
-    --text-muted: #94a3b8;
-    --lock-clr: #ef4444;    /* प्रीमियम लॉक के लिए लाल */
+    --gold: #fcc419;
+    --gold-dark: #b45309;
+    --dark: #050a14;
+    --card: #111827;
+    --text: #9ca3af;
+    --lock-clr: #ef4444;
 }
 
 * {
@@ -16,63 +16,68 @@
 }
 
 body {
-    background-color: var(--dark-bg);
+    background-color: var(--dark);
     color: white;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    overflow-x: hidden;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* 2. Golden Glow Splash Screen (No Shop Name) */
+/* 2. जादुई स्प्लैश स्क्रीन (Star Particles Style) */
 #splash-screen {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100vh;
-    background: var(--dark-bg);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle at center, #1e293b 0%, #050a14 100%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 99999;
     transition: opacity 0.8s ease;
 }
 
-.glow-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-/* धड़कता हुआ सुनहरा प्रकाश (Aura) */
-.golden-aura {
+#stars-container {
     position: absolute;
-    width: 250px; height: 250px;
-    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 75%);
-    border-radius: 50%;
-    filter: blur(40px);
-    animation: pulseAura 2.5s infinite alternate ease-in-out;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
-.logo-with-glow {
-    width: 160px; height: 160px;
+.star {
+    position: absolute;
+    background: white;
     border-radius: 50%;
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 50px var(--gold-glow);
-    z-index: 5;
-    animation: logoEmerge 1.8s ease-out forwards;
-}
-
-.glow-text-title {
-    color: var(--gold);
-    font-size: 2.6rem;
-    font-weight: 900;
-    letter-spacing: 10px;
-    margin-top: 30px;
-    text-shadow: 0 0 20px var(--gold);
-    z-index: 5;
     opacity: 0;
-    animation: fadeInGold 1s ease-out 1s forwards;
+    animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+.splash-logo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(252, 196, 25, 0.4);
+    border: 3px solid var(--gold);
+    animation: zoomIn 1.5s ease-out;
+}
+
+.splash-text {
+    color: var(--gold);
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    margin-top: 20px;
+    text-shadow: 0 0 20px rgba(252, 196, 25, 0.6);
+}
+
+.tagline {
+    color: var(--text);
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
 /* 3. मुख्य ऐप लेआउट */
@@ -84,41 +89,61 @@ body {
 
 header {
     text-align: center;
-    padding: 30px 0;
+    padding: 20px 0;
 }
 
-.badge {
-    background: var(--gold);
-    color: black;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.8rem;
-    display: inline-block;
-    margin-bottom: 10px;
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.header-mini-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
 }
 
 .gold-text {
     color: var(--gold);
 }
 
-/* 4. इनपुट कार्ड्स */
+.badge {
+    background: var(--gold);
+    color: black;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* 4. इनपुट और कार्ड्स */
 .input-card {
-    background: var(--card-bg);
+    background: var(--card);
     padding: 25px;
     border-radius: 20px;
-    border: 1px solid rgba(251, 191, 36, 0.1);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+label {
+    display: block;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
 }
 
 input {
     width: 100%;
     padding: 15px;
-    background: var(--dark-bg);
-    border: 1px solid #374151;
+    background: var(--dark);
+    border: 1px solid #334155;
     border-radius: 12px;
     color: white;
-    margin-top: 8px;
     margin-bottom: 20px;
     font-size: 1rem;
 }
@@ -126,24 +151,18 @@ input {
 .btn-main {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, var(--gold), #b45309);
-    color: black;
+    background: linear-gradient(to right, var(--gold), var(--gold-dark));
+    color: #0f172a;
     border: none;
     border-radius: 12px;
-    font-weight: bold;
     font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 15px var(--gold-glow);
-    transition: transform 0.2s;
 }
 
-.btn-main:active {
-    transform: scale(0.98);
-}
-
-/* 5. लिंक कार्ड्स और लॉक सिस्टम */
+/* 5. लिंक कार्ड्स और लॉकिंग */
 .link-card {
-    background: var(--card-bg);
+    background: var(--card);
     padding: 18px;
     border-radius: 15px;
     margin-bottom: 12px;
@@ -162,29 +181,94 @@ input {
 .free { color: #25d366; font-size: 0.7rem; font-weight: bold; border: 1px solid #25d366; padding: 2px 6px; border-radius: 4px; }
 .lock { color: var(--lock-clr); font-size: 0.8rem; font-weight: bold; }
 
-/* 6. एनिमेशन की परिभाषाएं */
-@keyframes pulseAura {
-    from { transform: scale(1); opacity: 0.3; }
-    to { transform: scale(1.5); opacity: 0.7; }
+/* 6. About Us और फुटर */
+.about-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text);
+    border: 1px solid rgba(251, 191, 36, 0.05);
 }
 
-@keyframes logoEmerge {
-    0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
-    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+.brand-footer {
+    position: absolute;
+    bottom: 20px;
+    color: rgba(252, 196, 25, 0.4);
+    font-size: 0.7rem;
+    letter-spacing: 1px;
 }
 
-@keyframes fadeInGold {
-    to { opacity: 1; transform: translateY(0); }
+/* 7. फ्लोटिंग व्हाट्सएप विजेट */
+.floating-widget {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index: 1000;
+    cursor: pointer;
 }
 
-.hidden { display: none; }
+.widget-icon { width: 35px; height: 35px; }
 
-/* 7. मॉडल (Popup) */
+.widget-ping {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #25d366;
+    border-radius: 50%;
+    z-index: -1;
+    animation: ping 2s infinite;
+}
+
+/* 8. मॉडल (Popup) */
 .modal {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.9);
     display: none;
     z-index: 100000;
 }
+
+.modal-content {
+    padding: 40px 20px;
+    max-width: 400px;
+    margin: auto;
+    color: white;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-size: 2rem;
+    color: var(--gold);
+    cursor: pointer;
+}
+
+/* एनिमेशन की परिभाषाएं */
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+@keyframes ping {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.hidden { display: none; }

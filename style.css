@@ -94,6 +94,8 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
 
 /* 2. Splash Screen (with Golden Glow) */
 
+/* 2. Splash Screen (with Golden Glow) */
+
 #splash-screen {
 
 position: fixed;
@@ -110,8 +112,6 @@ background: radial-gradient(circle at center,
 
 #1e293b 0%, #Of172a 100%);
 
-}
-
 display: flex;
 
 flex-direction: column;
@@ -123,36 +123,32 @@ align-items: center;
 z-index: 99999;
 
 transition: opacity 0.8s ease;
+
 }
 
-.splash-content {
-    text-align: center;
+.app-logo-container {
+
+width: 180px;
+
+height: 180px;
+
+margin-bottom: 20px;
+
+animation: zoomin 1.5s ease-out;
+
 }
 
-.splash-logo {
-    width: 180px;
-    height: auto;
-    animation: zoomIn 1.2s ease-out;
-}
+.main-logo-img {
 
-.splash-text {
-    color: #fcc419; /* Golden */
-    font-size: 2rem;
-    letter-spacing: 5px;
-    margin-top: 20px;
-    font-weight: bold;
-    animation: fadeInText 1.5s ease-in;
-}
+width: 100%;
 
-.loader {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(252, 196, 25, 0.1);
-    border-radius: 50%;
-    border-top-color: #fcc419;
-    margin: 30px auto;
-    animation: spin 1s ease-in-out infinite;
-}
+height: 100%;
+
+border-radius: 50%;
+
+box-shadow: 0 0 40px rgba(251, 191, 36, 0.4);
+
+border: 3px solid #fbbf24;
 
 @keyframes zoomIn {
     from { transform: scale(0.5); opacity: 0; }

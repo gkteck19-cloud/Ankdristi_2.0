@@ -92,15 +92,7 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
     }
 }
 
-/* 1. बेसिक सेटिंग्स और वेरिएबल्स */
-:root {
-    --gold: #fcc419;        /* आपका सिग्नेचर गोल्ड */
-    --gold-glow: rgba(252, 196, 25, 0.5);
-    --dark-bg: #020617;     /* प्रीमियम डार्क अंतरिक्ष नीला */
-    --card-bg: #111827;
-    --text-muted: #94a3b8;
-}
-
+/* 1. बेसिक सेटिंग्स */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -109,79 +101,179 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
 }
 
 body {
-    background-color: var(--dark-bg);
+    background-color: #0f172a;
     color: white;
     font-family: 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
     overflow-x: hidden;
 }
 
-/* 2. Golden Glow Splash Screen */
-; /* स्प्लैश के दौरान स्क्रॉल न हो */
-            background-color: #050a14;
-            font-family: 'Segoe UI', sans-serif;
-        }
+/* 2. स्प्लैश स्क्रीन (Golden Glow के साथ) */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.8s ease;
+}
 
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: radial-gradient(circle, #1e293b, #050a14);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease-out, visibility 0.8s;
-        }
+.app-logo-container {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 20px;
+    animation: zoomIn 1.5s ease-out;
+}
 
-        .splash-content {
-            text-align: center;
-        }
+.main-logo-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(251, 191, 36, 0.4);
+    border: 3px solid #fbbf24;
+}
 
-        .splash-logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 3px solid #fcc419;
-            filter: drop-shadow(0 0 20px rgba(252, 196, 25, 0.4));
-            animation: logoZoom 1.5s ease-out forwards;
-        }
+/* 3. मुख्य ऐप लेआउट */
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        .splash-text {
-            color: #fcc419;
-            font-size: 2.2rem;
-            letter-spacing: 6px;
-            margin: 20px 0 5px 0;
-            font-weight: 900;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.5s forwards;
-        }
+header {
+    text-align: center;
+    padding: 30px 0;
+}
 
-        .tagline {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards;
-        }
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
 
-        .brand-footer {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1.5s forwards;
-        }
+.header-mini-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #fbbf24;
+}
 
-        .loader {
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(252, 196, 25, 0.1);
-            border-top: 3px solid #fcc419;
-            border-radius: 50%;
-            margin: 25px auto;
-            animation: spin 1s linear infinite;
-        }
+.gold-text {
+    color: #fbbf24;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+/* 4. इनपुट कार्ड */
+.input-card {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, #fbbf24, #b45309);
+    color: #0f172a;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* लोशू ग्रिड का मुख्य ढांचा */
+.loshu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 कॉलम */
+    gap: 10px; /* डिब्बों के बीच की दूरी */
+    background: #fbbf24; /* बॉर्डर का सुनहरा रंग */
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 300px;
+    margin: 20px auto;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
+
+/* हर एक बॉक्स (Cell) की स्टाइल */
+.cell {
+    background: #0f172a; /* अंदर का गहरा नीला रंग */
+    aspect-ratio: 1/1; /* बॉक्स को चकोर रखने के लिए */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fbbf24;
+    border-radius: 8px;
+    min-height: 80px; /* मोबाइल पर सही दिखने के लिए */
+}
+
+
+/* 6. फ्लोटिंग व्हाट्सएप विजेट */
+.floating-widget {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #fbbf24;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index: 1000;
+    cursor: pointer;
+    border: 2px solid #0f172a;
+}
+
+.widget-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.widget-ping {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fbbf24;
+    border-radius: 50%;
+    z-index: -1;
+    animation: ping 2s infinite;
+}
+
+@keyframes ping {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.hidden { display: none; }
+  

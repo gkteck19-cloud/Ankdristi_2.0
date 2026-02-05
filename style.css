@@ -92,19 +92,37 @@ input, select { width: 100%; padding: 14px; background: #0b1120; border: 1px sol
     }
 }
 
-/* Splash Screen Styling */
+/* 2. Splash Screen (with Golden Glow) */
+
 #splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle, #0f172a, #050a14); /* गहरा नेवी ब्लू */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000; /* सबसे ऊपर रखने के लिए */
-    transition: opacity 0.8s ease-out;
+
+position: fixed;
+
+top: 0;
+
+left: 0;
+
+width: 100%;
+
+height: 100vh;
+
+background: radial-gradient(circle at center,
+
+#1e293b 0%, #Of172a 100%);
+
+}
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: center;
+
+align-items: center;
+
+z-index: 99999;
+
+transition: opacity 0.8s ease;
 }
 
 .splash-content {

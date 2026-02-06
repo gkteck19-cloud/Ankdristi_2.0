@@ -79,9 +79,10 @@ body {
     animation: loading 2s infinite;
 }
 
+/* स्प्लैश स्क्रीन को हटाने के लिए जरूरी क्लास */
 .splash-hidden {
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0 !important;
+    visibility: hidden !important;
 }
 
 /* 3. मुख्य कंटेनर और हेडर */

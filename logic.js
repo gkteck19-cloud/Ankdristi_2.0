@@ -1,4 +1,4 @@
- // 1. Firebase Configuration (गौतम जी की सेटिंग्स)
+// 1. Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCJIfQ-UTS6ns0pRO0nH4wzUQNnBB4_plc",
   authDomain: "ankdristi-37446610-e3f3b.firebaseapp.com",
@@ -8,191 +8,135 @@ const firebaseConfig = {
   appId: "1:216216154216:web:c6d5ffde5dc4faf13dcbdd"
 };
 
-// 2. Firebase Initialize (CDN version for browser)
+// 2. Firebase Initialize
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 3. स्प्लैश स्क्रीन टाइमर
+// ग्लोबल यूजर डेटा ऑब्जेक्ट
+let user = {
+    name: "",
+    dob: "",
+    gender: "",
+    mulank: 0,
+    bhagyank: 0,
+    namank: 0
+};
+
+// 3. स्प्लैश स्क्रीन कंट्रोल
 window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
     setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
         if (splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.style.display = 'none';
-            }, 800);
+            splash.classList.add('splash-hidden');
+            setTimeout(() => { splash.style.display = 'none'; }, 800);
         }
-    }, 2500);
+    }, 3500); // 3.5 सेकंड का प्रीमियम टाइम
 });
 
-// 4. मुख्य गणना (Calculation Logic)
-window.calculateNumerology = async function() {
-    const name = document.getElementById('userName').value;
-    const dob = document.getElementById('userDOB').value;
+// 4. लाइव नामांक गणना (Chaldean Method)
+window.liveCalc = function() {
+    const name = document.getElementById('nameInp').value.toUpperCase();
+    const chart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
+    
+    let total = 0;
+    for (let char of name) {
+        if (chart[char]) total += chart[char];
+    }
+    
+    const singleDigit = calculateReduction(total);
+    document.getElementById('nameLive').innerText = name ? `(${total} > ${singleDigit})` : "";
+};
+
+// 5. रिपोर्ट जेनरेट करना
+window.generateMenu = async function() {
+    const name = document.getElementById('nameInp').value;
+    const dob = document.getElementById('dobInp').value;
+    const gender = document.getElementById('genderInp').value;
 
     if (!name || !dob) {
-        alert("कृपया अपना नाम और जन्म तिथि भरें।");
+        alert("कृपया नाम और जन्म तिथि भरें।");
         return;
     }
 
-    const btn = document.getElementById('calcBtn');
-    btn.innerText = "गणना हो रही है...";
-    btn.disabled = true;
+    const [y, m, d] = dob.split('-');
 
-    const [year, month, day] = dob.split('-');
+    // डेटा स्टोर करें
+    user.name = name;
+    user.dob = dob;
+    user.gender = gender;
+    user.mulank = calculateReduction(d);
+    user.bhagyank = calculateReduction(parseInt(d) + parseInt(m) + [...y].reduce((a,b)=>parseInt(a)+parseInt(b), 0));
+    
+    // नामांक फाइनल करें
+    const chart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
+    let nameSum = [...name.toUpperCase()].reduce((s, c) => s + (chart[c] || 0), 0);
+    user.namank = calculateReduction(nameSum);
 
-    const mulank = calculateReduction(day);
-    const bhagyank = calculateReduction(day + month + year);
+    // UI बदलें
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('result-page').classList.remove('hidden');
 
-    // परिणाम दिखाएं
-    document.getElementById('mulank').innerText = mulank;
-    document.getElementById('bhagyank').innerText = bhagyank;
-    document.getElementById('results').classList.remove('hidden');
-
-    // लोशू ग्रिड अपडेट करें
-    fillGrid(day, month, year, mulank, bhagyank);
-
-    // Firebase Firestore में डेटा सेव करें
+    // Firebase में डेटा सेव करें
     try {
         await addDoc(collection(db, "user_queries"), {
-            name: name,
-            dob: dob,
-            mulank: mulank,
-            bhagyank: bhagyank,
-            timestamp: new Date()
+            ...user,
+            timestamp: new Date(),
+            app: "Ankdristi_2026"
         });
     } catch (e) {
-        console.error("Firebase Error: ", e);
+        console.error("Error adding document: ", e);
     }
-
-    btn.innerText = "परिणाम देखें";
-    btn.disabled = false;
 };
 
-function calculateReduction(numStr) {
-    let sum = numStr.split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+// 6. रिडक्शन फंक्शन (Single Digit)
+function calculateReduction(num) {
+    let sum = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
     while (sum > 9) {
         sum = sum.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
     }
     return sum;
 }
 
-function fillGrid(d, m, y, mul, bhag) {
-    // पहले पुराने नंबर मिटाएं
-    for (let i = 1; i <= 9; i++) {
-        const cell = document.getElementById('c' + i);
-        if (cell) cell.innerText = '';
-    }
-
-    // जन्मतिथि और मूलांक-भाग्यांक के सभी अंकों को एक साथ जोड़ें
-    const allDigits = (d + m + y + mul + bhag).split('');
-    
-    allDigits.forEach(digit => {
-        if (digit !== '0') {
-            const cell = document.getElementById('c' + digit);
-            if (cell) {
-                // अगर नंबर पहले से है, तो उसके आगे जोड़ें (जैसे 11)
-                cell.innerText += digit;
-            }
-        }
-    });
-}
-
-// WhatsApp पर शेयर करने का सिस्टम
-window.shareApp = function() {
-    const name = document.getElementById('userName').value;
-    const m = document.getElementById('mulank').innerText;
-    const b = document.getElementById('bhagyank').innerText;
-    const text = `अंकदृष्टि (Ankdristi) परिणाम:\nनाम: ${name}\nमूलांक: ${m}\nभाग्यांक: ${b}\nअपना भाग्य देखें: ${window.location.href}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-};
-
-// फ्लोटिंग विजेट (सपोर्ट)
-window.contactSupport = function() {
-    const msg = encodeURIComponent("नमस्ते गौतम जी, मुझे अंकदृष्टि के बारे में जानकारी चाहिए।");
-    window.open(`https://wa.me/91XXXXXXXXXX?text=${msg}`, '_blank'); // यहाँ अपना नंबर डालें
-};
-
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('Ankdristi: Service Worker Registered'))
-      .catch(err => console.log('Service Worker Error', err));
-  });
-}
-
-// मिसिंग नंबर ढूंढने का फंक्शन
-function getMissingNumbers(dob) {
-    const dobDigits = dob.replace(/-/g, '').split('');
-    const missing = [];
-    for (let i = 1; i <= 9; i++) {
-        if (!dobDigits.includes(i.toString())) {
-            missing.push(i);
-        }
-    }
-    return missing;
-}
-
-// मिसिंग नंबर के फ्री उपाय
-function getFreeRemedies(missingArr) {
-    const remedies = {
-        1: "तांबे के लोटे से सूर्य को जल दें।",
-        2: "पूर्णिमा का व्रत रखें या चांदी धारण करें।",
-        3: "केसर का तिलक लगाएं और बड़ों का सम्मान करें।",
-        4: "पक्षियों को बाजरा या अनाज खिलाएं।",
-        5: "गाय को हरा चारा खिलाएं।",
-        6: "इत्र (Perfume) का प्रयोग करें और साफ कपड़े पहनें।",
-        7: "कुत्तों को रोटी खिलाएं।",
-        8: "शनिवार को पीपल के नीचे सरसों के तेल का दीपक जलाएं।",
-        9: "हनुमान चालीसा का पाठ करें।"
-    };
-
-    if (missingArr.length === 0) return "<p>अदभुत! आपके पास सभी अंक मौजूद हैं।</p>";
-
-    let html = "<ul style='text-align:left; line-height:2;'>";
-    missingArr.forEach(num => {
-        html += `<li><strong>अंक ${num}:</strong> ${remedies[num]}</li>`;
-    });
-    html += "</ul>";
-    return html;
-}
-
-// अपडेटेड openDetail फंक्शन
+// 7. प्रीमियम लॉकिंग और डिटेल व्यू
 window.openDetail = function(type, isPaid) {
     let body = document.getElementById('modalBody');
     if (isPaid) {
         body.innerHTML = `
-            <h2 class="gold-text">प्रीमियम लॉक 🔒</h2>
-            <div class="pay-box">
-                <p>गहराई से विश्लेषण और विशेष महा-उपाय केवल प्रीमियम रिपोर्ट में उपलब्ध हैं।</p>
-                <h3 style="color:var(--gold); font-size:1.8rem;">मात्र ₹199</h3>
-                <button class="btn-main" onclick="alert('UPI पेमेंट के लिए संपर्क करें: 91XXXXXXXXXX')">अनलॉक करें</button>
+            <h2 class="gold-text">प्रीमियम रिपोर्ट लॉक 🔒</h2>
+            <div style="text-align:center; padding:20px; border:1px dashed var(--gold); border-radius:15px; margin-top:15px;">
+                <p>2026 का विस्तृत विश्लेषण और महा-उपाय केवल प्रीमियम वर्जन में उपलब्ध हैं।</p>
+                <h2 style="color:var(--gold); font-size:2rem; margin:15px 0;">₹199</h2>
+                <button class="btn-main" onclick="window.open('upi://pay?pa=YOUR_UPI@okicici&pn=Ankdristi&am=199&cu=INR')">UPI से अभी अनलॉक करें</button>
+                <p style="font-size:0.7rem; margin-top:10px; color:#94a3b8;">सुरक्षित भुगतान द्वारा: Ankdristi</p>
             </div>
         `;
     } else {
-        if(type === 'mulank') {
-            body.innerHTML = `<h2 class="gold-text">मूलांक: ${user.mulank}</h2><p>यह अंक आपके व्यक्तित्व की नींव है।</p>`;
-        }
-        if(type === 'bhagyank') {
-            body.innerHTML = `<h2 class="gold-text">भाग्यांक: ${user.bhagyank}</h2><p>यह आपके जीवन का मुख्य उद्देश्य और मार्ग दर्शाता है।</p>`;
-        }
-        if(type === 'namank') {
-            body.innerHTML = `<h2 class="gold-text">नामांक: ${user.namank}</h2><p>आपका नाम समाज में आपकी पहचान और सफलता तय करता है।</p>`;
-        }
+        if(type === 'mulank') body.innerHTML = `<h2 class="gold-text">मूलांक: ${user.mulank}</h2><p>यह अंक आपके स्वभाव और व्यक्तित्व की नींव है।</p>`;
+        if(type === 'bhagyank') body.innerHTML = `<h2 class="gold-text">भाग्यांक: ${user.bhagyank}</h2><p>यह आपके जीवन का मुख्य मार्ग और डेस्टिनी दर्शाता है।</p>`;
+        if(type === 'namank') body.innerHTML = `<h2 class="gold-text">नामांक: ${user.namank}</h2><p>आपका नाम समाज में आपकी सफलता और ऊर्जा तय करता है।</p>`;
         if(type === 'missing') {
-            const missing = getMissingNumbers(user.dob);
-            body.innerHTML = `
-                <h2 class="gold-text">लुप्त संख्या (Missing)</h2>
-                <p>आपकी जन्मतिथि में गायब अंकों के सरल उपाय:</p>
-                ${getFreeRemedies(missing)}
-                <p style="font-size:0.8rem; color:var(--gold); margin-top:15px;">*विशेष महा-उपायों के लिए प्रीमियम रिपोर्ट देखें।</p>
-            `;
+            const missing = getMissing(user.dob);
+            body.innerHTML = `<h2 class="gold-text">लुप्त संख्या (Missing)</h2><p>आपकी जन्मतिथि में गायब अंकों के सरल उपाय:</p>${getRemedy(missing)}`;
         }
     }
     document.getElementById('detailModal').style.display = 'block';
 };
 
+function getMissing(dob) {
+    const digits = dob.replace(/-/g, '').split('');
+    return [1,2,3,4,5,6,7,8,9].filter(n => !digits.includes(n.toString()));
+}
+
+function getRemedy(arr) {
+    const r = {1:"सूर्य को जल दें", 2:"चांदी पहनें", 3:"केसर तिलक", 4:"पक्षियों को दाना", 5:"गाय को हरा चारा", 6:"इत्र लगाएं", 7:"कुत्ता सेवा", 8:"दीप दान", 9:"हनुमान चालीसा"};
+    let h = "<ul>";
+    arr.forEach(n => h += `<li style="margin-bottom:8px;"><strong>अंक ${n}:</strong> ${r[n]}</li>`);
+    return h + "</ul>";
+}
+
+window.closeModal = function() {
+    document.getElementById('detailModal').style.display = 'none';
+};

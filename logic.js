@@ -1,4 +1,4 @@
-// 1. Firebase Configuration
+// 1. Firebase Configuration (गौतम जी की सेटिंग्स)
 const firebaseConfig = {
   apiKey: "AIzaSyCJIfQ-UTS6ns0pRO0nH4wzUQNnBB4_plc",
   authDomain: "ankdristi-37446610-e3f3b.firebaseapp.com",
@@ -8,33 +8,26 @@ const firebaseConfig = {
   appId: "1:216216154216:web:c6d5ffde5dc4faf13dcbdd"
 };
 
-// 2. Firebase Initialize
+// 2. Firebase Initialize (CDN version for browser)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ग्लोबल यूजर डेटा ऑब्जेक्ट
-let user = {
-    name: "",
-    dob: "",
-    gender: "",
-    mulank: 0,
-    bhagyank: 0,
-    namank: 0
-};
-
-// 3. स्प्लैश स्क्रीन कंट्रोल
+// 3. स्प्लैश स्क्रीन टाइमर
 window.addEventListener('load', () => {
-    const splash = document.getElementById('splash-screen');
     setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
         if (splash) {
-            splash.classList.add('splash-hidden');
-            setTimeout(() => { splash.style.display = 'none'; }, 800);
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 800);
         }
-    }, 3500); // 3.5 सेकंड का प्रीमियम टाइम
+    }, 2500);
 });
+
 
 // 4. लाइव नामांक गणना (Chaldean Method)
 window.liveCalc = function() {

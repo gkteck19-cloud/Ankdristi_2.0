@@ -2,64 +2,99 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ankdristi - Premium Numerology</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ankdristi - Numerology App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="home-page" class="container">
-        <div class="header">
-            <span class="badge">2026 स्पेशल रिपोर्ट</span>
-            <h1>अंकदृष्टि</h1>
-            <p>अंकों का रहस्य, आपकी सफलता</p>
+    <div class="app-container">
+        <div id="input-page">
+            <header>
+                <h1 class="gold-text">Ankdristi</h1>
+                <p class="tagline">अंकों की दिव्य दृष्टि</p>
+            </header>
+
+            <section class="input-card">
+                <div class="form-group">
+                    <label>आपका नाम (English)</label>
+                    <div class="name-row">
+                        <input type="text" id="userName" placeholder="Name" oninput="calculateLiveNamank(this.value)">
+                        <div id="namankDisplay" class="live-namank-box">0 (0)</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>लिंग (Gender)</label>
+                    <div class="gender-container">
+                        <button class="gender-btn" id="maleBtn" onclick="selectGender('Male')">पुरुष</button>
+                        <button class="gender-btn" id="femaleBtn" onclick="selectGender('Female')">महिला</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>जन्म तिथि</label>
+                    <input type="date" id="userDOB">
+                </div>
+
+                <div class="form-group">
+                    <label>मोबाइल नंबर</label>
+                    <input type="tel" id="userMobile" placeholder="10 Digits" maxlength="10">
+                </div>
+
+                <button class="calc-main-btn" onclick="showResults()">परिणाम देखें</button>
+            </section>
+
+            <section class="alphabet-chart">
+                <h3 class="chart-title">चालडियन चार्ट</h3>
+                <div class="chart-grid">
+                    <div>A,I,J,Q,Y = <b>1</b></div><div>B,K,R = <b>2</b></div>
+                    <div>C,G,L,S = <b>3</b></div><div>D,M,T = <b>4</b></div>
+                    <div>E,H,N,X = <b>5</b></div><div>U,V,W = <b>6</b></div>
+                    <div>O,Z = <b>7</b></div><div>P,F = <b>8</b></div>
+                </div>
+            </section>
         </div>
 
-        <div class="input-box">
-            <div class="field">
-                <label>पूरा नाम <span id="nameLive" class="gold-text"></span></label>
-                <input type="text" id="nameInp" placeholder="GAUTAM KHATRI" oninput="liveCalc()">
+        <div id="result-page" class="hidden">
+            <header>
+                <div onclick="goBack()" class="back-btn">← वापस</div>
+                <h2 class="gold-text">संपूर्ण विश्लेषण</h2>
+            </header>
+
+            <div class="top-stats">
+                <div class="stat-card"><span>मूलांक</span><h2 id="resMulank" class="gold-text">0</h2></div>
+                <div class="stat-card"><span>भाग्यांक</span><h2 id="resBhagyank" class="gold-text">0</h2></div>
+                <div class="stat-card"><span>नामांक</span><h2 id="resNamank" class="gold-text">0</h2></div>
             </div>
-            <div class="field">
-                <label>जन्म तिथि</label>
-                <input type="date" id="dobInp">
+
+            <div class="analysis-grid">
+                <div class="analysis-link" onclick="openDetail('janmank')">1. जन्मांक</div>
+                <div class="analysis-link" onclick="openDetail('bhagyank')">2. भाग्यांक</div>
+                <div class="analysis-link" onclick="openDetail('namank')">3. नामांक</div>
+                <div class="analysis-link" onclick="openDetail('mobile')">4. मोबाइल</div>
+                <div class="analysis-link" onclick="openDetail('soul')">5. व्यक्तित्व</div>
+                <div class="analysis-link" onclick="openDetail('year')">6. पर्सनल इयर</div>
+                <div class="analysis-link" onclick="openDetail('grid')">7. ग्रिड विश्लेषण</div>
+                <div class="analysis-link" onclick="openDetail('missing')">8. मिसिंग नंबर</div>
+                <div class="analysis-link" onclick="openDetail('remedy')">9. उपाय</div>
+                <div class="analysis-link" onclick="openDetail('plane')">10. प्लेन</div>
             </div>
-            <div class="field">
-                <label>लिंग (Gender)</label>
-                <select id="genderInp">
-                    <option value="male">पुरुष</option>
-                    <option value="female">महिला</option>
-                </select>
-            </div>
-            <button class="btn-main" onclick="generateMenu()">रिपोर्ट प्राप्त करें</button>
+
+            <button class="premium-btn" onclick="contactPremium()">
+                अंकज्योतिष रिपोर्ट <br><span>प्रीमियम सर्विस</span>
+            </button>
         </div>
     </div>
 
-    <div id="result-page" class="container hidden">
-        <div class="back-link" onclick="location.reload()">← वापस जाएँ</div>
-        <h2 class="gold-text">आपकी महा-रिपोर्ट</h2>
-        
-        <div class="menu-list">
-            <div onclick="openDetail('mulank', false)" class="link-card"><span>1. मूलांक (जन्मांक)</span> <span class="free">FREE</span></div>
-            <div onclick="openDetail('bhagyank', false)" class="link-card"><span>2. भाग्यांक (जीवन पथ)</span> <span class="free">FREE</span></div>
-            <div onclick="openDetail('namank', false)" class="link-card"><span>3. नामांक (Name Analysis)</span> <span class="free">FREE</span></div>
-            <div onclick="openDetail('number', true)" class="link-card locked"><span>4. संख्या विश्लेषण</span> <span class="lock">🔒 PAID</span></div>
-            <div onclick="openDetail('personality', true)" class="link-card locked"><span>5. व्यक्तित्व एवं आत्मा</span> <span class="lock">🔒 PAID</span></div>
-            <div onclick="openDetail('year', true)" class="link-card locked"><span>6. व्यक्तिगत वर्ष 2026</span> <span class="lock">🔒 PAID</span></div>
-            <div onclick="openDetail('loshu', true)" class="link-card locked"><span>7. लोशू ग्रिड गहराई से</span> <span class="lock">🔒 PAID</span></div>
-            <div onclick="openDetail('missing', false)" class="link-card"><span>8. लुप्त संख्या (Missing)</span> <span class="free">FREE</span></div>
-            <div onclick="openDetail('remedy', true)" class="link-card locked"><span>9. अचूक महा-उपाय</span> <span class="lock">🔒 PAID</span></div>
-            <div onclick="openDetail('pdf', true)" class="link-card locked"><span>10. फुल PDF रिपोर्ट</span> <span class="lock">🔒 PAID</span></div>
-        </div>
-    </div>
-
-    <div id="detailModal" class="modal">
+    <div id="infoModal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">×</span>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" class="gold-text"></h2>
             <div id="modalBody"></div>
         </div>
     </div>
 
-    <script src="logic.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

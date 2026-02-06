@@ -28,7 +28,79 @@ window.addEventListener('load', () => {
     }, 2500);
 });
 
+let selectedGender = "";
+const charMap = { A:1, I:1, J:1, Q:1, Y:1, B:2, K:2, R:2, C:3, G:3, L:3, S:3, D:4, M:4, T:4, E:5, H:5, N:5, X:5, U:6, V:6, W:6, O:7, Z:7, P:8, F:8 };
+const remedies = { 1:"सूर्य को जल दें", 2:"चांदी धारण करें", 3:"केसर तिलक लगाएं", 4:"पक्षी सेवा करें", 5:"गाय को हरा चारा दें", 6:"इत्र का प्रयोग करें", 7:"कुत्ता सेवा करें", 8:"शनि दीप जलाएं", 9:"हनुमान चालीसा पढ़ें" };
 
+function selectGender(g) {
+    selectedGender = g;
+    document.getElementById('maleBtn').classList.toggle('active', g === 'Male');
+    document.getElementById('femaleBtn').classList.toggle('active', g === 'Female');
+}
+
+function reduce(n) {
+    while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    return n;
+}
+
+function calculateLiveNamank(name) {
+    let sum = 0;
+    let clean = name.toUpperCase().replace(/[^A-Z]/g, '');
+    for (let char of clean) sum += charMap[char] || 0;
+    document.getElementById('namankDisplay').innerText = sum > 0 ? `${sum} (${reduce(sum)})` : "0 (0)";
+    return { total: sum, single: reduce(sum) };
+}
+
+function showResults() {
+    const name = document.getElementById('userName').value;
+    const dob = document.getElementById('userDOB').value;
+    if (!name || !dob || !selectedGender) { alert("पूरी जानकारी भरें"); return; }
+    
+    const nObj = calculateLiveNamank(name);
+    const d = parseInt(dob.split('-')[2]);
+    const fullSum = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    
+    document.getElementById('resMulank').innerText = reduce(d);
+    document.getElementById('resBhagyank').innerText = reduce(fullSum);
+    document.getElementById('resNamank').innerText = `${nObj.total} (${nObj.single})`;
+    
+    document.getElementById('input-page').classList.add('hidden');
+    document.getElementById('result-page').classList.remove('hidden');
+}
+
+function openDetail(type) {
+    const modal = document.getElementById('infoModal');
+    const title = document.getElementById('modalTitle');
+    const body = document.getElementById('modalBody');
+    const dobDigits = document.getElementById('userDOB').value.replace(/-/g, '');
+    const allPresent = dobDigits + document.getElementById('resMulank').innerText + document.getElementById('resBhagyank').innerText;
+    
+    let head = "", content = "";
+    
+    if(type === 'missing') {
+        head = "लुप्त अंक (Missing)";
+        let missing = [];
+        for(let i=1; i<=9; i++) if(!allPresent.includes(i)) missing.push(i);
+        content = missing.length ? missing.map(n => `<span class='missing-circle'>${n}</span>`).join(' ') : "अदभुत! कोई अंक मिसिंग नहीं है।";
+    } else if(type === 'remedy') {
+        head = "सरल उपाय";
+        let missing = [];
+        for(let i=1; i<=9; i++) if(!allPresent.includes(i)) missing.push(`<b>अंक ${i}:</b> ${remedies[i]}`);
+        content = missing.length ? missing.join('<br>') : "नियमित ध्यान और योग करें।";
+    } else {
+        head = "विश्लेषण";
+        content = "यह आपके " + type + " का संक्षिप्त विवरण है। पूर्ण जानकारी प्रीमियम रिपोर्ट में उपलब्ध है।";
+    }
+
+    title.innerText = head;
+    body.innerHTML = content;
+    modal.classList.remove('hidden');
+}
+
+function closeModal() { document.getElementById('infoModal').classList.add('hidden'); }
+function goBack() { document.getElementById('result-page').classList.add('hidden'); document.getElementById('input-page').classList.remove('hidden'); }
+function contactPremium() { window.open('https://wa.me/91XXXXXXXXXX?text=नमस्ते, मुझे प्रीमियम रिपोर्ट चाहिए।'); }
+      
 // 4. लाइव नामांक गणना (Chaldean Method)
 window.liveCalc = function() {
     const name = document.getElementById('nameInp').value.toUpperCase();

@@ -1,11 +1,11 @@
-/* 1. बेसिक सेटिंग्स और वेरिएबल्स */
+/* 1. ब्रांड कलर्स और सेटिंग्स */
 :root {
-    --gold: #fcc419;
+    --gold: #fcc419;        /* प्रीमियम गोल्ड */
     --gold-dark: #b45309;
-    --dark: #050a14;
-    --card: #111827;
-    --text: #9ca3af;
-    --lock-clr: #ef4444;
+    --dark-bg: #020617;     /* प्रीमियम डार्क ब्लू */
+    --card-bg: #111827;     /* कार्ड्स के लिए गहरा ग्रे */
+    --text-muted: #94a3b8;
+    --lock-clr: #ef4444;    /* लॉक के लिए लाल */
 }
 
 * {
@@ -16,24 +16,187 @@
 }
 
 body {
-    background-color: var(--dark);
+    background-color: var(--dark-bg);
     color: white;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
-/* 2. जादुई स्प्लैश स्क्रीन (Star Particles Style) */
+/* 2. Golden Glow Splash Screen */
 #splash-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1e293b 0%, #050a14 100%);
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: var(--dark-bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.app-logo-container {
+    position: relative;
+    width: 150px; height: 150px;
+    margin-bottom: 25px;
+}
+
+.app-logo-container::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+    filter: blur(25px);
+    opacity: 0.4;
+    animation: pulse 2s infinite alternate;
+}
+
+.main-logo-img {
+    width: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 30px rgba(252, 196, 25, 0.4);
+    z-index: 5;
+}
+
+.loader-line {
+    width: 150px; height: 3px;
+    background: #1e293b;
+    margin-top: 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-line::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    width: 100%; height: 100%;
+    background: var(--gold);
+    animation: loading 2s infinite;
+}
+
+.splash-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 3. मुख्य कंटेनर और हेडर */
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.header-mini-logo {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+}
+
+.tagline {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+/* 4. इनपुट बॉक्स और फॉर्म */
+.input-box {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(251, 191, 36, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.badge {
+    background: var(--gold);
+    color: black;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+label { font-size: 0.85rem; color: var(--text-muted); }
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    background: #0b1120;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    color: white;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+}
+
+.btn-main {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(252, 196, 25, 0.3);
+}
+
+/* 5. Chaldean Chart Style */
+.chaldean-chart-container {
+    margin-top: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.chaldean-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.chart-item {
+    background: #1e293b;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    border: 1px solid rgba(252, 196, 25, 0.1);
+}
+
+.chart-item span { color: var(--gold); font-weight: bold; font-size: 1rem; }
+
+/* 6. रिपोर्ट मेन्यू और लिंक कार्ड्स */
+.menu-list { margin-top: 20px; }
+
+.link-card {
+    background: var(--card-bg);
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    border-left: 5
     align-items: center;
     z-index: 99999;
     transition: opacity 0.8s ease;
